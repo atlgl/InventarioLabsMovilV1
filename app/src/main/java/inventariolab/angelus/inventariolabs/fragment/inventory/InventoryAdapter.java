@@ -41,10 +41,10 @@ public class InventoryAdapter extends ArrayAdapter<Inventory> {
         TextView txtestado=(TextView) v.findViewById(R.id.txt_inventory_estado);
         TextView txtmarca=(TextView) v.findViewById(R.id.txt_inventory_marca);
 
-        txtid.setText("ID: "+String.valueOf(inventoryList.get(position).getId()));
-        txtestado.setText("Estado: "+inventoryList.get(position).getInventorystate());
-        txtmodelo.setText("Modelo: "+inventoryList.get(position).getComputer().getModelname());
-        txtmarca.setText("Marca "+inventoryList.get(position).getComputer().getMark().getName());
+        txtid.setText(String.valueOf(inventoryList.get(position).getId()));
+        txtestado.setText(inventoryList.get(position).getInventorystate());
+        txtmodelo.setText(inventoryList.get(position).getComputer().getModelname());
+        txtmarca.setText(inventoryList.get(position).getComputer().getMark().getName());
 
         return v;
     }
