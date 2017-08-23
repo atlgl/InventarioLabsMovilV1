@@ -43,8 +43,8 @@ public class InventoryAdapter extends ArrayAdapter<Inventory> {
 
         txtid.setText(String.valueOf(inventoryList.get(position).getId()));
         txtestado.setText(inventoryList.get(position).getInventorystate());
-        txtmodelo.setText(inventoryList.get(position).getComputer().getModelname());
-        txtmarca.setText(inventoryList.get(position).getComputer().getMark().getName());
+//        txtmodelo.setText(inventoryList.get(position).getComputer().getModelname());
+//        txtmarca.setText(inventoryList.get(position).getComputer().getMark().getName());
 
         return v;
     }

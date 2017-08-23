@@ -30,6 +30,7 @@ import java.util.List;
 
 import inventariolab.angelus.inventariolabs.R;
 import inventariolab.angelus.inventariolabs.fragment.inventory.InventoryFragment;
+import inventariolab.angelus.inventariolabs.fragment.inventory.ItemIventoryFragment;
 import inventariolab.angelus.inventariolabs.mensajeria.SingleMensajeria;
 import inventariolab.angelus.inventariolabs.modelo.Inventory;
 
@@ -37,6 +38,8 @@ public class MenuPrincipalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private InventoryFragment inventoryFragment;
+    private AsignaEquipo asignaEquipo;
+    private Faltante faltante;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +69,7 @@ public class MenuPrincipalActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
-        loadFramgent(1);
+    //    loadFramgent(1); comentado por Uriel
     }
 
     @Override
@@ -111,10 +114,12 @@ public class MenuPrincipalActivity extends AppCompatActivity
             // Handle the camera action
             loadFramgent(1);
         } else if (id == R.id.nav_gallery) {
-
+            loadFramgent(2);
         } else if (id == R.id.nav_slideshow) {
+            loadFramgent(3);
 
         } else if (id == R.id.nav_manage) {
+            loadFramgent(4);
 
         } else if (id == R.id.nav_share) {
 
@@ -138,6 +143,18 @@ public class MenuPrincipalActivity extends AppCompatActivity
 //                getInventories();
                 //
 
+                break;
+            case 2:
+                if(asignaEquipo==null) {
+                    asignaEquipo = new AsignaEquipo();
+                }
+                fragmentManager.beginTransaction().replace(R.id.contenedorFragmetos,asignaEquipo).commit();
+            break;
+            case 3:
+                if(faltante==null) {
+                    faltante = new Faltante();
+                }
+                fragmentManager.beginTransaction().replace(R.id.contenedorFragmetos,faltante).commit();
                 break;
             case 11:
 
