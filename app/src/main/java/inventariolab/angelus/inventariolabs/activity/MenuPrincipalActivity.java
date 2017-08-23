@@ -40,6 +40,7 @@ public class MenuPrincipalActivity extends AppCompatActivity
     private InventoryFragment inventoryFragment;
     private AsignaEquipo asignaEquipo;
     private Faltante faltante;
+    private  BajaEquipo bajaEquipo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,11 +113,11 @@ public class MenuPrincipalActivity extends AppCompatActivity
 
         if (id == R.id.nav_inventory) {
             // Handle the camera action
-            loadFramgent(1);
+            loadFramgent(3);
         } else if (id == R.id.nav_gallery) {
             loadFramgent(2);
         } else if (id == R.id.nav_slideshow) {
-            loadFramgent(3);
+            loadFramgent(2);
 
         } else if (id == R.id.nav_manage) {
             loadFramgent(4);
@@ -156,6 +157,13 @@ public class MenuPrincipalActivity extends AppCompatActivity
                 }
                 fragmentManager.beginTransaction().replace(R.id.contenedorFragmetos,faltante).commit();
                 break;
+            case 4:
+                if(bajaEquipo==null) {
+                    bajaEquipo = new BajaEquipo();
+                }
+                fragmentManager.beginTransaction().replace(R.id.contenedorFragmetos,bajaEquipo).commit();
+                break;
+
             case 11:
 
                 break;
