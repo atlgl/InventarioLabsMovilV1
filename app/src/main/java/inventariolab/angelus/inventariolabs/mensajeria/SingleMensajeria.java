@@ -12,10 +12,11 @@ import com.android.volley.toolbox.Volley;
 
 public class SingleMensajeria {
 
-   // private static String host="http://www.legionx.com.mx";
-    public static String host="http://10.0.2.2";
+    private static String host="http://www.legionx.com.mx";
+    //public static String host="http://10.0.2.2";
     public static String urlinventory=host+"/inventariolabs/public/android/inventory";
     public static String urllab=host+"/inventariolabs/public/android/lab";
+    public static String urlfindinventory=host+"/inventariolabs/public/android/findinventory/";
 
     private static SingleMensajeria mInstance;
     private RequestQueue mRequestQueue;

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -25,7 +27,7 @@ import me.dm7.barcodescanner.zbar.ZBarScannerView;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 
-public class SimpleScannerFragment extends AppCompatActivity {
+public class SimpleScannerFragment extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
     private ZXingScannerView mScannerView;
 
@@ -47,7 +49,7 @@ public class SimpleScannerFragment extends AppCompatActivity {
         super.onResume();
         mScannerView = new ZXingScannerView(this);   // Programmatically initialize the scanner view
         setContentView(mScannerView);
-        //mScannerView.setResultHandler(this); // Register ourselves as a handler for scan results.
+        mScannerView.setResultHandler(this); // Register ourselves as a handler for scan results.
         mScannerView.startCamera();          // Start camera on resume
     }
 
@@ -57,41 +59,38 @@ public class SimpleScannerFragment extends AppCompatActivity {
         mScannerView.stopCamera();           // Stop camera on pause
     }
 
-    public void handleResult1(final com.google.zxing.Result rawResult) {
+    @Override
+    public void handleResult(final com.google.zxing.Result rawResult) {
         // Do something with the result here
+
         Log.v("Escaner", rawResult.getText()); // Prints scan results
         Log.v("Escaner", rawResult.getBarcodeFormat().toString()); // Prints the scan format (qrcode, pdf417 etc.)
         AlertDialog.Builder alerta=new AlertDialog.Builder(this);
         alerta.setTitle("Codigo Leido");
-        final boolean[] ok = {false};
         alerta.setPositiveButton("Enviar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //mScannerView.stopCamera();
 
-                //Intent i=new Intent(getBaseContext(),LeerActivity.class);
-                //i.putExtra("CodeFormat",rawResult.getBarcodeFormat().toString());
-                //i.putExtra("Code",rawResult.getText().toString());
-                //startActivity(i);
-                ok[0] =true;
-
-
+                mScannerView.resumeCameraPreview(SimpleScannerFragment.this);
+                mScannerView.stopCamera();
+                Intent i=new Intent();
+                i.putExtra("CodeFormat",rawResult.getBarcodeFormat().toString());
+                i.putExtra("Code",rawResult.getText().toString());
+                setResult(1,i);
+                finish();
             }
         });
         alerta.setMessage("---"+rawResult.getText()+"--"+rawResult.getBarcodeFormat().toString()+"--");
+        mScannerView.resumeCameraPreview(this);
         alerta.show();
+
+        //Toast.makeText(getBaseContext(),"---"+rawResult.getText()+"--"+rawResult.getBarcodeFormat().toString()+"--",Toast.LENGTH_SHORT).show();
+
+
         // If you would like to resume scanning, call this method below:
-        //mScannerView.resumeCameraPreview(this);
-        setResult(1);
 
-        if (ok[0]==true){
-            setResult(1);
-            finish();
-        }
-
-
-
-
+        //setResult(1);
+        //finish();
     }
 
     @Override
@@ -100,14 +99,8 @@ public class SimpleScannerFragment extends AppCompatActivity {
         if(requestCode==1){
             mScannerView = new ZXingScannerView(this);   // Programmatically initialize the scanner view
             setContentView(mScannerView);                // Set the scanner view as the content view
-            mScannerView.setResultHandler(new ZXingScannerView.ResultHandler() {
-                @Override
-                public void handleResult(com.google.zxing.Result result) {
-
-                    Toast.makeText(getBaseContext(),"---"+result.getText()+"--"+result.getBarcodeFormat().toString()+"--",Toast.LENGTH_SHORT).show();
-
-                }
-            });
         }
     }
 }
+
+

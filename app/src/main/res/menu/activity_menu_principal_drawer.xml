@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/nav_gallery"
-        android:icon="@drawable/ic_menu_gallery"
+        android:id="@+id/nav_fails"
+        android:icon="@drawable/ic_bug_fixing"
         android:title="Fallas" />
     <group android:checkableBehavior="single">
         <item
@@ -12,15 +12,21 @@
             android:icon="@drawable/ic_checklist"
             android:title="Inventario" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:id="@+id/nav_software"
+            android:icon="@drawable/ic_software"
             android:title="Software" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
+            android:id="@+id/nav_fails_reports"
+            android:icon="@drawable/ic_lost_items"
             android:title="Listado Fallas y Reportes" />
+        <item
+            android:id="@+id/nav_codebar"
+            android:icon="@drawable/ic_barcode"
+            android:title="Buscar PC"/>
     </group>
 
+    <!--Este menu no lo usamos -->
+<!--
     <item android:title="Communicate">
         <menu>
             <item
@@ -33,6 +39,6 @@
                 android:title="Send" />
         </menu>
     </item>
-
+-->
 
 </menu>

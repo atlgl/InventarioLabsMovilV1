@@ -1,7 +1,9 @@
 package inventariolab.angelus.inventariolabs.activity;
 
+import android.app.DownloadManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,12 +16,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -32,13 +36,15 @@ import java.util.List;
 import inventariolab.angelus.inventariolabs.R;
 import inventariolab.angelus.inventariolabs.fragment.inventory.InventoryFragment;
 import inventariolab.angelus.inventariolabs.fragment.inventory.ItemIventoryFragment;
+import inventariolab.angelus.inventariolabs.fragment.labs.LaboratoryFragment;
+import inventariolab.angelus.inventariolabs.fragment.scanner.SimpleScannerFragment;
 import inventariolab.angelus.inventariolabs.mensajeria.SingleMensajeria;
 import inventariolab.angelus.inventariolabs.modelo.Inventory;
 
 public class MenuPrincipalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private InventoryFragment inventoryFragment;
+    private LaboratoryFragment laboratoryFragment;
     private AsignaEquipo asignaEquipo;
     private Faltante faltante;
     private  BajaEquipo bajaEquipo;
@@ -71,7 +77,10 @@ public class MenuPrincipalActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
+
+        //carga el primer fragmento comentado por angel
     //    loadFramgent(1); comentado por Uriel
+        loadFramgent(1);
     }
 
     @Override
@@ -111,21 +120,18 @@ public class MenuPrincipalActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_inventory) {
+        if (id == R.id.nav_fails) {
             // Handle the camera action
             loadFramgent(3);
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_inventory) {
+            loadFramgent(1);
+        } else if (id == R.id.nav_software) {
             loadFramgent(2);
-        } else if (id == R.id.nav_slideshow) {
-            loadFramgent(2);
-
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_fails_reports) {
             loadFramgent(4);
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if( id== R.id.nav_codebar){
+            //busca un codigo de barras
+            startActivityForResult(new Intent(getBaseContext(), SimpleScannerFragment.class),1);
 
         }
 
@@ -133,15 +139,27 @@ public class MenuPrincipalActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    FragmentManager fragmentManager;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==1){
+            String code=data.getStringExtra("Code");
+            //Toast.makeText(getBaseContext(),"code"+code,Toast.LENGTH_SHORT).show();
+            getIventoryFromBarCode(code);
+        }
+    }
+
+    private FragmentManager fragmentManager;
+
     public void loadFramgent(int opc){
         fragmentManager=getFragmentManager();
         switch (opc){
             case 1:
-                if(inventoryFragment==null) {
-                    inventoryFragment = new InventoryFragment();
+                if(laboratoryFragment==null) {
+                    laboratoryFragment = new LaboratoryFragment();
                 }
-                fragmentManager.beginTransaction().replace(R.id.contenedorFragmetos,inventoryFragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.contenedorFragmetos,laboratoryFragment).commit();
 //                getInventories();
                 //
 
@@ -206,7 +224,35 @@ public class MenuPrincipalActivity extends AppCompatActivity
         });
         SingleMensajeria.getInstance(getBaseContext()).addToRequestQueue(jsonArrayRequest);
     }
+
+
     public  void switchContent(int id,Fragment fragment){
         getFragmentManager().beginTransaction().replace(R.id.contenedorFragmetos,fragment).commit();
+    }
+
+    private void getIventoryFromBarCode(String barcode){
+        String url=SingleMensajeria.urlfindinventory+"/"+barcode;
+        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url,null,new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if(response!=null) {
+                    Gson gson = new Gson();
+                    Inventory inventory = gson.fromJson(response.toString(), Inventory.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("inventoryobj", inventory);
+                    ItemIventoryFragment itemIventoryFragment=new ItemIventoryFragment();
+                    itemIventoryFragment.setArguments(bundle);
+                    switchContent(R.id.contenedorFragmetos,itemIventoryFragment);
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        SingleMensajeria.getInstance(getBaseContext()).addToRequestQueue(jsonObjectRequest);
     }
 }
