@@ -1,10 +1,15 @@
 package inventariolab.angelus.inventariolabs.modelo;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 /**
  * Created by Angelus on 16/08/2017.
  */
 
-public class Inventory {
+public class Inventory implements Parcelable {
     private int id;
     private int user_id;
     private int computer_id;
@@ -20,6 +25,29 @@ public class Inventory {
 
     public Inventory() {
     }
+
+    protected Inventory(Parcel in) {
+        id = in.readInt();
+        user_id = in.readInt();
+        computer_id = in.readInt();
+        lab_id = in.readInt();
+        barcode = in.readString();
+        inventorystate = in.readString();
+        created_at = in.readString();
+        updated_at = in.readString();
+    }
+
+    public static final Creator<Inventory> CREATOR = new Creator<Inventory>() {
+        @Override
+        public Inventory createFromParcel(Parcel in) {
+            return new Inventory(in);
+        }
+
+        @Override
+        public Inventory[] newArray(int size) {
+            return new Inventory[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -99,5 +127,22 @@ public class Inventory {
 
     public void setComputer(Computadora computer) {
         this.computer = computer;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(user_id);
+        dest.writeInt(computer_id);
+        dest.writeInt(lab_id);
+        dest.writeString(barcode);
+        dest.writeString(inventorystate);
+        dest.writeString(created_at);
+        dest.writeString(updated_at);
     }
 }

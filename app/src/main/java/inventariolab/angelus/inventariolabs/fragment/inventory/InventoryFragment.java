@@ -1,12 +1,14 @@
 package inventariolab.angelus.inventariolabs.fragment.inventory;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import inventariolab.angelus.inventariolabs.R;
+import inventariolab.angelus.inventariolabs.fragment.labs.LabAdapter;
 import inventariolab.angelus.inventariolabs.mensajeria.SingleMensajeria;
 import inventariolab.angelus.inventariolabs.modelo.Inventory;
 import inventariolab.angelus.inventariolabs.modelo.Laboratorios;
@@ -34,71 +37,41 @@ public class InventoryFragment extends Fragment {
     private List<Inventory> inventoryList;
 
     private ListView listView;
-    private Spinner spinner;
+
+    private String urlid;
 
     public InventoryFragment() {
         // Required empty public constructor
 
     }
 
-
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        Bundle bundle=getArguments();
+        Laboratorios laboratorios=bundle.getParcelable("inventoryid");
+        urlid=String.valueOf(laboratorios.getId());
         View v=inflater.inflate(R.layout.fragment_inventory, container, false);
         listView=(ListView) v.findViewById(R.id.listview_inventory_computers);
-        spinner=(Spinner) v.findViewById(R.id.spin_inventory_lab);
-        //listView.setAdapter(new InventoryAdapter(getContext(),inventoryList));
         getInventories();
-
-
         return v;
     }
 
-    public void getLaboratories(){
-        JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(Request.Method.GET, SingleMensajeria.urllab, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                try {
-                    List<Laboratorios> inventoryList;
-                    inventoryList=new ArrayList<>();
-                    JSONArray jsonArray=response;
-                    Gson gson=new Gson();
-                   // ArrayAdapter<String> adapter=new ArrayAdapter<String>(getContext(),android.R.layout.two_line_list_item);
 
-                    for(int i=0;i<jsonArray.length();i++){
-                        Laboratorios lab= gson.fromJson(jsonArray.getJSONObject(i).toString(),Laboratorios.class);
-                        inventoryList.add(lab);
-                    }
-
-
-
-
-                }catch (Exception ex){
-                    ex.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-
-
-            }
-        });
-        SingleMensajeria.getInstance(getContext()).addToRequestQueue(jsonArrayRequest);
-    }
 
     public void getInventories(){
 
 
-        JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(Request.Method.GET, SingleMensajeria.urlinventory, null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(Request.Method.GET, SingleMensajeria.urlinventory+"/"+urlid, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 try {
-                    List<Inventory> inventoryList;
+                    final List<Inventory> inventoryList;
                     inventoryList=new ArrayList<>();
                     JSONArray jsonArray=response;
                     Gson gson=new Gson();
@@ -108,6 +81,16 @@ public class InventoryFragment extends Fragment {
                     }
 
                     listView.setAdapter(new InventoryAdapter(getContext(),inventoryList));
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            ItemIventoryFragment fragment=new ItemIventoryFragment();
+                            Bundle bundle=new Bundle();
+                            bundle.putParcelable("inventoryobj",inventoryList.get(position));
+                            fragment.setArguments(bundle);
+                            getFragmentManager().beginTransaction().replace(R.id.contenedorFragmetos,fragment).commit();
+                            }
+                    });
                 }catch (Exception ex){
                     ex.printStackTrace();
                 }
@@ -116,11 +99,10 @@ public class InventoryFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-
-
             }
         });
         SingleMensajeria.getInstance(getContext()).addToRequestQueue(jsonArrayRequest);
     }
 
 }
+

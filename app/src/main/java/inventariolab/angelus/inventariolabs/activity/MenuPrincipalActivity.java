@@ -1,5 +1,6 @@
 package inventariolab.angelus.inventariolabs.activity;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -205,8 +206,7 @@ public class MenuPrincipalActivity extends AppCompatActivity
         });
         SingleMensajeria.getInstance(getBaseContext()).addToRequestQueue(jsonArrayRequest);
     }
-
-
-
-
+    public  void switchContent(int id,Fragment fragment){
+        getFragmentManager().beginTransaction().replace(R.id.contenedorFragmetos,fragment).commit();
+    }
 }

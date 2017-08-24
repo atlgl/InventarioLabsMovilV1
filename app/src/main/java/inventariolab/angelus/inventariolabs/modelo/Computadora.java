@@ -1,10 +1,13 @@
 package inventariolab.angelus.inventariolabs.modelo;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Angelus on 15/08/2017.
  */
 
-public class Computadora {
+public class Computadora implements Parcelable {
 
     private int id;
     private String modelname;
@@ -17,6 +20,27 @@ public class Computadora {
 
     public Computadora() {
     }
+
+    protected Computadora(Parcel in) {
+        id = in.readInt();
+        modelname = in.readString();
+        desc = in.readString();
+        mark_id = in.readInt();
+        created_at = in.readString();
+        updated_at = in.readString();
+    }
+
+    public static final Creator<Computadora> CREATOR = new Creator<Computadora>() {
+        @Override
+        public Computadora createFromParcel(Parcel in) {
+            return new Computadora(in);
+        }
+
+        @Override
+        public Computadora[] newArray(int size) {
+            return new Computadora[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -85,5 +109,20 @@ public class Computadora {
                 ", updated_at='" + updated_at + '\'' +
                 ", mark=" + mark +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(modelname);
+        dest.writeString(desc);
+        dest.writeInt(mark_id);
+        dest.writeString(created_at);
+        dest.writeString(updated_at);
     }
 }

@@ -5,18 +5,9 @@
     tools:context="inventariolab.angelus.inventariolabs.fragment.inventory.InventoryFragment">
 
 
-
-    <Spinner
-        android:id="@+id/spin_inventory_lab"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
-
     <ListView
         android:id="@+id/listview_inventory_computers"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/spin_inventory_lab"
         android:layout_centerHorizontal="true" tools:listitem="@layout/item_inventory" />
 </RelativeLayout>

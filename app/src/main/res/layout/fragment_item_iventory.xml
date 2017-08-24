@@ -1,13 +1,111 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="inventariolab.angelus.inventariolabs.fragment.inventory.ItemIventoryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/txt_item_inventory_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="ID"
+        android:textAppearance="@android:style/TextAppearance.Material.Large" />
+
+    <ImageButton
+        android:id="@+id/btn_item_inventory_fallas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        app:srcCompat="@drawable/ic_bug_fixing" />
+
+    <ImageButton
+        android:id="@+id/btn_item_inventory_software"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        app:srcCompat="@drawable/ic_software" />
+
+    <ImageButton
+        android:id="@+id/btn_item_inventory_perdidas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/ic_lost_items" />
+
+    <ImageButton
+        android:id="@+id/btn_item_inventory_barcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_item_inventory_software"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="33dp"
+        app:srcCompat="@drawable/ic_barcode" />
+
+    <EditText
+        android:id="@+id/txt_item_inventory_modelo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/txt_item_inventory_id"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Modelo" />
+
+    <EditText
+        android:id="@+id/txt_item_inventory_codigobarra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/txt_item_inventory_modelo"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Codigo Barras" />
+
+    <EditText
+        android:id="@+id/txt_item_inventory_lab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/txt_item_inventory_codigobarra"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Laboratorio" />
+
+    <EditText
+        android:id="@+id/txt_item_inventory_marca"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/txt_item_inventory_lab"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="marca" />
+
+    <Spinner
+        android:id="@+id/spin_item_inventory_estado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/txt_item_inventory_marca"
+        android:entries="@string/app_name"
+        android:textAppearance="@array/item_inventory_state" />
+
+    <EditText
+        android:id="@+id/txt_item_inventory_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/spin_item_inventory_estado"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:hint="Descripcion:" />
+
+</RelativeLayout>

@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="inventariolab.angelus.inventariolabs">
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -11,16 +14,18 @@
         android:roundIcon="@drawable/ic_checklist"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".activity.MenuPrincipalActivity"
             android:label="@string/title_activity_menu_principal"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".fragment.inventory.InventoryShowItemActivity"/>
+        <activity android:name=".fragment.scanner.SimpleScannerFragment"/>
     </application>
 
 </manifest>
