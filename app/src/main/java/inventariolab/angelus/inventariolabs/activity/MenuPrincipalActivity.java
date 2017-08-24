@@ -16,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -24,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -36,10 +39,12 @@ import java.util.List;
 import inventariolab.angelus.inventariolabs.R;
 import inventariolab.angelus.inventariolabs.fragment.inventory.InventoryFragment;
 import inventariolab.angelus.inventariolabs.fragment.inventory.ItemIventoryFragment;
+import inventariolab.angelus.inventariolabs.fragment.inventory.SoftwareAdapter;
 import inventariolab.angelus.inventariolabs.fragment.labs.LaboratoryFragment;
 import inventariolab.angelus.inventariolabs.fragment.scanner.SimpleScannerFragment;
 import inventariolab.angelus.inventariolabs.mensajeria.SingleMensajeria;
 import inventariolab.angelus.inventariolabs.modelo.Inventory;
+import inventariolab.angelus.inventariolabs.modelo.Software;
 
 public class MenuPrincipalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -62,7 +67,8 @@ public class MenuPrincipalActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Agregar una Computadora al Inventario", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                        .setAction("Action",null ).show();
+
             }
         });
 
@@ -174,6 +180,7 @@ public class MenuPrincipalActivity extends AppCompatActivity
                 if(faltante==null) {
                     faltante = new Faltante();
                 }
+  //              getSoftware();
                 fragmentManager.beginTransaction().replace(R.id.contenedorFragmetos,faltante).commit();
                 break;
             case 4:
@@ -254,5 +261,47 @@ public class MenuPrincipalActivity extends AppCompatActivity
         });
 
         SingleMensajeria.getInstance(getBaseContext()).addToRequestQueue(jsonObjectRequest);
+    }
+
+    List softwareList ;
+    Software software;
+    Spinner spinerSoftware;
+    String[] contenido;
+    ArrayAdapter<String> adaptador;
+
+    private void getSoftware(){
+
+        String url="http://http://www.legionx.com.mx/inventariolabs/public/android/software";
+        RequestQueue volleyCola= Volley.newRequestQueue(getBaseContext());
+
+        spinerSoftware = (Spinner) findViewById(R.id.spinFaltanteSoft) ;
+
+        JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                softwareList =new ArrayList<>();
+                try{
+                    for (int i=0;i<response.length();i++){
+                        JSONObject object=response.getJSONObject(i);
+                        Software p=new Software();
+                        software.setId(object.getInt("id"));
+                        software.setName(object.getString("name"));
+                        software.setDesc(object.getString("desc"));
+
+                        softwareList.add(software);
+                    }}catch (Exception ex){
+                    ex.printStackTrace();
+                }
+                //Toast.makeText(getBaseContext(),response.toString(),Toast.LENGTH_LONG).show();
+                spinerSoftware.setAdapter(new SoftwareAdapter(getBaseContext(),softwareList));
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        volleyCola.add(jsonArrayRequest);
+        int i = softwareList.size();
     }
 }
