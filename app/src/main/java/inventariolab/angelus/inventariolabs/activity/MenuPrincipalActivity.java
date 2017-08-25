@@ -1,12 +1,12 @@
 package inventariolab.angelus.inventariolabs.activity;
 
-import android.app.DownloadManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
@@ -127,17 +128,22 @@ public class MenuPrincipalActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_fails) {
-            // Handle the camera action
             loadFramgent(3);
         } else if (id == R.id.nav_inventory) {
+            //carga el inventario por laboratorios
             loadFramgent(1);
         } else if (id == R.id.nav_software) {
             loadFramgent(2);
         } else if (id == R.id.nav_fails_reports) {
             loadFramgent(4);
         } else if( id== R.id.nav_codebar){
-            //busca un codigo de barras
-            startActivityForResult(new Intent(getBaseContext(), SimpleScannerFragment.class),1);
+            //busca un codigo de barras y muesta su informacion
+            //se usa un staractivity for result por que espera a la camara
+            //a que termine para trabajar con el resultado obtenido del lector de codigo de barras
+            //el handler es onActivityResult
+            //startActivityForResult(new Intent(getBaseContext(), SimpleScannerFragment.class),1);
+
+            getIventoryFromBarCode("7702111333970");
 
         }
 
@@ -145,6 +151,14 @@ public class MenuPrincipalActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    /***
+     * Manejador que se dispara cuando termina un staractivityfor result en este caso espera por
+     * el resultado de la lectura del codigo de barras para buscar en el inventario y mostrar la informacion
+     * @param requestCode codigo de respuesta
+     * @param resultCode codifo de resultado
+     * @param data la data esta envuelta en un intent y se requiere un objeto parceable
+     */
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -166,9 +180,6 @@ public class MenuPrincipalActivity extends AppCompatActivity
                     laboratoryFragment = new LaboratoryFragment();
                 }
                 fragmentManager.beginTransaction().replace(R.id.contenedorFragmetos,laboratoryFragment).commit();
-//                getInventories();
-                //
-
                 break;
             case 2:
                 if(asignaEquipo==null) {
@@ -237,13 +248,26 @@ public class MenuPrincipalActivity extends AppCompatActivity
         getFragmentManager().beginTransaction().replace(R.id.contenedorFragmetos,fragment).commit();
     }
 
+    /**
+     * Funcion que busca un codigo de barras
+     * @param barcode recibe el codigo de barras a buscar en la bd
+     */
+
     private void getIventoryFromBarCode(String barcode){
+        //construye la url para enviar la informacion por el metodo get
         String url=SingleMensajeria.urlfindinventory+"/"+barcode;
-        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url,null,new Response.Listener<JSONObject>() {
+
+        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+
+                Log.d("Responce",response.toString());
+
                 if(response!=null) {
+                    //gson se encarga de hacer el trabajo sucio de transformar un objeto en un inventario
+                    //la unica condicion de gson es que los campos se deben llamar tal cual en el objeto json
                     Gson gson = new Gson();
+                    //transforma un objeto gson a un inventario
                     Inventory inventory = gson.fromJson(response.toString(), Inventory.class);
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("inventoryobj", inventory);
@@ -259,6 +283,8 @@ public class MenuPrincipalActivity extends AppCompatActivity
 
             }
         });
+
+
 
         SingleMensajeria.getInstance(getBaseContext()).addToRequestQueue(jsonObjectRequest);
     }

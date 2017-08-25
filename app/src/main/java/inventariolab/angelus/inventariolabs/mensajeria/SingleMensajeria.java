@@ -8,15 +8,37 @@ import com.android.volley.toolbox.Volley;
 
 /**
  * Created by Angelus on 20/08/2017.
+ * Clase singleton para invocar el Volley
+ * Permite crear una sola cola de mensajeria para toda la aplicacion
+ * permite ahorrar los recursos para que no se consuman mas de los necesarios
+ * o crear una nueva cola de mensajes
  */
 
 public class SingleMensajeria {
 
-    private static String host="http://www.legionx.com.mx";
-    //public static String host="http://10.0.2.2";
-    public static String urlinventory=host+"/inventariolabs/public/android/inventory";
-    public static String urllab=host+"/inventariolabs/public/android/lab";
-    public static String urlfindinventory=host+"/inventariolabs/public/android/findinventory/";
+    //host principal
+    private static String host="http://www.legionx.com.mx/inventariolabs/public/android/";
+    //host de prueba local
+    //public static String host="http://10.0.2.2/inventariolabs/public/android/";
+    //devuelve todos los inventarios
+    public static String urlinventory=host+"inventory";
+    //devuelve todos los laboratorios
+    public static String urllab=host+"lab";
+
+    //devuele el catalogo de software
+    public static String urlsoftware=host+"software";
+
+    //devuelve los usuarios
+    public static String urlususrio=host+"user";
+
+    //devuelve los inventarios por codigodebarras findinventory/12
+    public static String urlfindinventory=host+"findinventory";
+
+    //devuelve el inventario por laboratorio
+    public static String urlfindbylab=host+"findbylab";
+
+
+
 
     private static SingleMensajeria mInstance;
     private RequestQueue mRequestQueue;
