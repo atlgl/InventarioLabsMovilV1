@@ -167,7 +167,7 @@ public class ItemIventoryFragment extends Fragment {
                     LabAdapterSpinner labAdapterSpinner=new LabAdapterSpinner(getContext(),laboratoriosList);
                     spinestado.setAdapter(labAdapterSpinner);
                     int pos=labAdapterSpinner.getElementPosition(inv.getLab());
-                    spinestado.setPromptId(pos);
+                    spinestado.setSelection(pos);
 
 
                 }catch (Exception ex){
