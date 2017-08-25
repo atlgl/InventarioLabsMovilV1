@@ -297,7 +297,7 @@ public class MenuPrincipalActivity extends AppCompatActivity
 
     private void getSoftware(){
 
-        String url="http://http://www.legionx.com.mx/inventariolabs/public/android/software";
+        String url="http://www.legionx.com.mx/inventariolabs/public/android/software";
         RequestQueue volleyCola= Volley.newRequestQueue(getBaseContext());
 
         spinerSoftware = (Spinner) findViewById(R.id.spinFaltanteSoft) ;
