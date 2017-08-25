@@ -34,7 +34,7 @@ import inventariolab.angelus.inventariolabs.modelo.Laboratorios;
  */
 public class InventoryFragment extends Fragment {
 
-    private List<Inventory> inventoryList;
+
 
     private ListView listView;
 
@@ -62,6 +62,7 @@ public class InventoryFragment extends Fragment {
         return v;
     }
 
+    private List<Inventory> inventoryList;
 
 
     public void getInventories(){
@@ -71,7 +72,7 @@ public class InventoryFragment extends Fragment {
             @Override
             public void onResponse(JSONArray response) {
                 try {
-                    final List<Inventory> inventoryList;
+
                     inventoryList=new ArrayList<>();
                     JSONArray jsonArray=response;
                     Gson gson=new Gson();

@@ -116,6 +116,7 @@ public class MenuPrincipalActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
             return true;
         }
 
@@ -261,19 +262,25 @@ public class MenuPrincipalActivity extends AppCompatActivity
             @Override
             public void onResponse(JSONArray response) {
 
-                Log.d("Responce",response.toString());
+                try {
 
-                if(response!=null) {
-                    //gson se encarga de hacer el trabajo sucio de transformar un objeto en un inventario
-                    //la unica condicion de gson es que los campos se deben llamar tal cual en el objeto json
-                    Gson gson = new Gson();
-                    //transforma un objeto gson a un inventario
-                    Inventory inventory = gson.fromJson(response.toString(), Inventory.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("inventoryobj", inventory);
-                    ItemIventoryFragment itemIventoryFragment=new ItemIventoryFragment();
-                    itemIventoryFragment.setArguments(bundle);
-                    switchContent(R.id.contenedorFragmetos,itemIventoryFragment);
+                    Log.d("Responce", response.toString());
+
+                    if (response != null) {
+                        //gson se encarga de hacer el trabajo sucio de transformar un objeto en un inventario
+                        //la unica condicion de gson es que los campos se deben llamar tal cual en el objeto json
+                        Gson gson = new Gson();
+                        //transforma un objeto gson a un inventario
+
+                        Inventory inventory = gson.fromJson(response.getJSONObject(0).toString(), Inventory.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("inventoryobj", inventory);
+                        ItemIventoryFragment itemIventoryFragment = new ItemIventoryFragment();
+                        itemIventoryFragment.setArguments(bundle);
+                        switchContent(R.id.contenedorFragmetos, itemIventoryFragment);
+                    }
+                }catch (Exception ex){
+                    ex.printStackTrace();
                 }
 
             }
