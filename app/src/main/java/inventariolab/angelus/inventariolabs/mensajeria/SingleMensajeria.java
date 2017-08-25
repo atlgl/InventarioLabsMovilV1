@@ -17,9 +17,9 @@ import com.android.volley.toolbox.Volley;
 public class SingleMensajeria {
 
     //host principal
-    private static String host="http://www.legionx.com.mx/inventariolabs/public/android/";
+    //private static String host="http://www.legionx.com.mx/inventariolabs/public/android/";
     //host de prueba local
-    //public static String host="http://10.0.2.2/inventariolabs/public/android/";
+    public static String host="http://10.0.2.2/inventariolabs/public/android/";
     //devuelve todos los inventarios
     public static String urlinventory=host+"inventory";
     //devuelve todos los laboratorios
@@ -36,6 +36,16 @@ public class SingleMensajeria {
 
     //devuelve el inventario por laboratorio
     public static String urlfindbylab=host+"findbylab";
+
+
+    //ligas para las fallas
+    //cambiar el metodo si quieres eliminar usa el Request.Method.DELETE y concadena asi  /id  id es el elemento a eliminar
+    //cambiar el metodo si quieres guardar un elelemento usa POST y no concadenes nada a la url y mando los
+    // nombres de los campos tal cual estan en la base de datos te devolvera el mensaje de que se a creado
+    //para buscar una falla solo agrega /id y usa el metodo get
+    //para pasar valores entre fragmentos en el modelo agrega parseable el editor te ayuda con alt + enter
+
+    public static String urlfail=host+"fail";
 
 
 

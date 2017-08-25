@@ -257,9 +257,9 @@ public class MenuPrincipalActivity extends AppCompatActivity
         //construye la url para enviar la informacion por el metodo get
         String url=SingleMensajeria.urlfindinventory+"/"+barcode;
 
-        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        JsonArrayRequest jsonObjectRequest=new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(JSONArray response) {
 
                 Log.d("Responce",response.toString());
 
