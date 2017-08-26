@@ -33,6 +33,18 @@ public class Fallas {
                 '}';
     }
 
+
+    public String toPresentaFalla() {
+        return "Reporte " +
+                " número =" + id +
+                "\n Número de Serie Hardware : " + inventory_id +
+                "\n Descripción : " + desc +
+                "\n Tipo de falla : " + failtype +
+                "\n Estado de la Falla : " + failstate +
+                "\n\n";
+    }
+
+
     public int getId() {
         return id;
     }

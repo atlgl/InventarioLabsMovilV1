@@ -27,6 +27,7 @@
         </activity>
         <activity android:name=".fragment.inventory.InventoryShowItemActivity" />
         <activity android:name=".fragment.scanner.SimpleScannerFragment" />
+        <activity android:name=".activity.SoftwareFragment"></activity>
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

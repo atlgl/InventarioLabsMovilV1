@@ -53,9 +53,12 @@ public class MenuPrincipalActivity extends AppCompatActivity
 
     private LaboratoryFragment laboratoryFragment;
     private AsignaEquipo asignaEquipo;
-    private Faltante faltante;
-    private BajaEquipo bajaEquipo;
+    private FaltanteFragment faltante;
+    private  BajaEquipo bajaEquipo;
     private NavigationView navigationView;
+    private FallasFragment fallasFragment;
+
+    private  SoftwareFragment lstSoftwareFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,17 +196,29 @@ public class MenuPrincipalActivity extends AppCompatActivity
                 fragmentManager.beginTransaction().replace(R.id.contenedorFragmetos,laboratoryFragment).commit();
                 break;
             case 2:
-                if(asignaEquipo==null) {
+               /* if(asignaEquipo==null) {
                     asignaEquipo = new AsignaEquipo();
+                }*/
+                if(lstSoftwareFragment==null) {
+                    lstSoftwareFragment = new SoftwareFragment();
                 }
-                fragmentManager.beginTransaction().replace(R.id.contenedorFragmetos,asignaEquipo).commit();
+
+                fragmentManager.beginTransaction().replace(R.id.contenedorFragmetos,lstSoftwareFragment).commit();
             break;
             case 3:
+ /*
+                Este es el codigo de alta en inventario
                 if(faltante==null) {
-                    faltante = new Faltante();
+                    faltante = new FaltanteFragment();
                 }
-  //              getSoftware();
-                fragmentManager.beginTransaction().replace(R.id.contenedorFragmetos,faltante).commit();
+                 fragmentManager.beginTransaction().replace(R.id.contenedorFragmetos,faltante).commit();
+
+*/               if(fallasFragment==null) {
+                fallasFragment = new FallasFragment();
+            }
+                fragmentManager.beginTransaction().replace(R.id.contenedorFragmetos, fallasFragment).commit();
+
+
                 break;
             case 4:
                 if(bajaEquipo==null) {
@@ -304,48 +319,6 @@ public class MenuPrincipalActivity extends AppCompatActivity
 
 
         SingleMensajeria.getInstance(getBaseContext()).addToRequestQueue(jsonObjectRequest);
-    }
-
-    List softwareList ;
-    Software software;
-    Spinner spinerSoftware;
-    String[] contenido;
-    ArrayAdapter<String> adaptador;
-
-    private void getSoftware(){
-
-        String url="http://www.legionx.com.mx/inventariolabs/public/android/software";
-        RequestQueue volleyCola= Volley.newRequestQueue(getBaseContext());
-
-        spinerSoftware = (Spinner) findViewById(R.id.spinFaltanteSoft) ;
-
-        JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                softwareList =new ArrayList<>();
-                try{
-                    for (int i=0;i<response.length();i++){
-                        JSONObject object=response.getJSONObject(i);
-                        Software p=new Software();
-                        software.setId(object.getInt("id"));
-                        software.setName(object.getString("name"));
-                        software.setDesc(object.getString("desc"));
-
-                        softwareList.add(software);
-                    }}catch (Exception ex){
-                    ex.printStackTrace();
-                }
-                //Toast.makeText(getBaseContext(),response.toString(),Toast.LENGTH_LONG).show();
-                spinerSoftware.setAdapter(new SoftwareAdapter(getBaseContext(),softwareList));
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        volleyCola.add(jsonArrayRequest);
-        int i = softwareList.size();
     }
 
 
