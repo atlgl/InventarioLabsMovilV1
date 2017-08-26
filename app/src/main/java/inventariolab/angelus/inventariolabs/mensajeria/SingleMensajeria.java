@@ -19,7 +19,9 @@ public class SingleMensajeria {
     //host principal
     //private static String host="http://www.legionx.com.mx/inventariolabs/public/android/";
     //host de prueba local
-    public static String host="http://10.0.2.2/inventariolabs/public/android/";
+    //public static String host="http://10.0.2.2/inventariolabs/public/android/";
+    public static String host="http://192.168.43.72/inventariolabs/public/android/";
+
     //devuelve todos los inventarios
     public static String urlinventory=host+"inventory";
     //devuelve todos los laboratorios
@@ -36,6 +38,9 @@ public class SingleMensajeria {
 
     //devuelve el inventario por laboratorio
     public static String urlfindbylab=host+"findbylab";
+
+
+    public static String urllogin=host+"acceso";
 
 
     //ligas para las fallas

@@ -50,14 +50,14 @@ public class ItemIventoryFragment extends Fragment {
     private EditText txtmodelo;
     private EditText txtmarca;
     private Spinner spinestado;
-    private EditText txtdesc;
-    private EditText txtlab;
+    //private EditText txtdesc;
+    //private EditText txtlab;
 
 
-    private ImageButton barcode;
-    private ImageButton fallas;
-    private ImageButton software;
-    private ImageButton perdidas;
+   // private ImageButton barcode;
+   // private ImageButton fallas;
+   // private ImageButton software;
+   // private ImageButton perdidas;
 
     public ItemIventoryFragment() {
     }
@@ -77,33 +77,25 @@ public class ItemIventoryFragment extends Fragment {
         txtbarcode=(EditText) v.findViewById(R.id.txt_item_inventory_codigobarra);
         txtmodelo=(EditText) v.findViewById(R.id.txt_item_inventory_modelo);
         txtmarca=(EditText) v.findViewById(R.id.txt_item_inventory_marca);
-        txtdesc=(EditText) v.findViewById(R.id.txt_item_inventory_desc);
-        txtlab=(EditText) v.findViewById(R.id.txt_item_inventory_lab);
+        //textos quitados
+        //txtdesc=(EditText) v.findViewById(R.id.txt_item_inventory_desc);
+        //txtlab=(EditText) v.findViewById(R.id.txt_item_inventory_lab);
         spinestado=(Spinner) v.findViewById(R.id.spin_item_inventory_estado);
 
         txtid.setText(String.valueOf(inv.getId()));
         txtbarcode.setText(inv.getBarcode());
         txtmodelo.setText(inv.getComputer().getModelname());
         txtmarca.setText(inv.getComputer().getMark().getName());
-        txtlab.setText(inv.getLab().getName());
+//        txtlab.setText(inv.getLab().getName());
         //ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(getContext(),R.array.item_inventory_state,android.R.layout.simple_spinner_item);
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //spinestado.setAdapter(adapter);
-
-
-
-
-        fallas=(ImageButton) v.findViewById(R.id.btn_item_inventory_fallas);
-        software=(ImageButton) v.findViewById(R.id.btn_item_inventory_software);
-        perdidas=(ImageButton) v.findViewById(R.id.btn_item_inventory_perdidas);
-        barcode=(ImageButton) v.findViewById(R.id.btn_item_inventory_barcode);
+        //fallas quitadas
+        //fallas=(ImageButton) v.findViewById(R.id.btn_item_inventory_fallas);
+        //software=(ImageButton) v.findViewById(R.id.btn_item_inventory_software);
+        //perdidas=(ImageButton) v.findViewById(R.id.btn_item_inventory_perdidas);
+        //barcode=(ImageButton) v.findViewById(R.id.btn_item_inventory_barcode);
         getListLaboratories();
-
-
-
-
-
-
         return v;
     }
 
@@ -168,8 +160,6 @@ public class ItemIventoryFragment extends Fragment {
                     spinestado.setAdapter(labAdapterSpinner);
                     int pos=labAdapterSpinner.getElementPosition(inv.getLab());
                     spinestado.setSelection(pos);
-
-
                 }catch (Exception ex){
                     ex.printStackTrace();
                 }

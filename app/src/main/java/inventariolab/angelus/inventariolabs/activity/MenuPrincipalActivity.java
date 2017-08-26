@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -53,7 +54,8 @@ public class MenuPrincipalActivity extends AppCompatActivity
     private LaboratoryFragment laboratoryFragment;
     private AsignaEquipo asignaEquipo;
     private Faltante faltante;
-    private  BajaEquipo bajaEquipo;
+    private BajaEquipo bajaEquipo;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,13 +83,17 @@ public class MenuPrincipalActivity extends AppCompatActivity
 
 
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
+
+        //devuelve el nombre del usuario en la interfazgrafica principal
+        getUsuario();
 
         //carga el primer fragmento comentado por angel
     //    loadFramgent(1); comentado por Uriel
         loadFramgent(1);
+
     }
 
     @Override
@@ -142,10 +148,14 @@ public class MenuPrincipalActivity extends AppCompatActivity
             //se usa un staractivity for result por que espera a la camara
             //a que termine para trabajar con el resultado obtenido del lector de codigo de barras
             //el handler es onActivityResult
-            //startActivityForResult(new Intent(getBaseContext(), SimpleScannerFragment.class),1);
+            startActivityForResult(new Intent(getBaseContext(), SimpleScannerFragment.class),1);
+            //getIventoryFromBarCode("7702111333970");
 
-            getIventoryFromBarCode("7702111333970");
-
+        }
+        else if(id==R.id.nav_close)
+        {
+            startActivity(new Intent(getBaseContext(),LoginActivity.class));
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -166,7 +176,7 @@ public class MenuPrincipalActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode==1){
             String code=data.getStringExtra("Code");
-            //Toast.makeText(getBaseContext(),"code"+code,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(),"code"+code,Toast.LENGTH_SHORT).show();
             getIventoryFromBarCode(code);
         }
     }
@@ -336,5 +346,16 @@ public class MenuPrincipalActivity extends AppCompatActivity
         });
         volleyCola.add(jsonArrayRequest);
         int i = softwareList.size();
+    }
+
+
+    public void getUsuario(){
+        Intent i=getIntent();
+        if(i.getStringExtra("email")!=null) {
+            View header=navigationView.getHeaderView(0);
+
+            TextView usuario = (TextView) header.findViewById(R.id.txt_nav_usuario);
+            usuario.setText(i.getStringExtra("email"));
+        }
     }
 }

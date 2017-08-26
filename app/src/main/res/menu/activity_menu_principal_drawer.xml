@@ -23,6 +23,10 @@
             android:id="@+id/nav_codebar"
             android:icon="@drawable/ic_barcode"
             android:title="Buscar PC"/>
+        <item
+            android:id="@+id/nav_close"
+            android:icon="@drawable/ic_closed"
+            android:title="Cerrar Sesión"/>
     </group>
 
     <!--Este menu no lo usamos -->
