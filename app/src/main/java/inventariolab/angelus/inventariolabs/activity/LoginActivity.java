@@ -14,9 +14,11 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initgui();
+        //getsoftware(); //prueba para obtener software funciona
 
     }
 
@@ -100,5 +103,24 @@ public class LoginActivity extends AppCompatActivity {
 
         SingleMensajeria.getInstance(getBaseContext()).addToRequestQueue(objectRequest);
     }
+/**prueba para luisito de get softwares
+    public void getsoftware(){
+        String url="http://www.legionx.com.mx/inventariolabs/public/android/software";
+
+        JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Toast.makeText(getBaseContext(),response.toString(),Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getBaseContext(),error.toString(),Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        SingleMensajeria.getInstance(getBaseContext()).addToRequestQueue(jsonArrayRequest);
+    }**/
 
 }
